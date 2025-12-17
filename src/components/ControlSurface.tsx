@@ -18,10 +18,10 @@ export const ControlSurface: React.FC<ControlSurfaceProps> = ({
   footer,
 }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-black">
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
       {/* Top chrome - product branding area */}
       {header && (
-        <header className="border-b border-[var(--te-mid-gray)] px-6 py-4">
+        <header className="border-b border-[var(--muted)] px-6 py-4">
           {header}
         </header>
       )}
@@ -33,7 +33,7 @@ export const ControlSurface: React.FC<ControlSurfaceProps> = ({
 
       {/* Bottom chrome - transport/status area */}
       {footer && (
-        <footer className="border-t border-[var(--te-mid-gray)] px-6 py-3">
+        <footer className="border-t border-[var(--muted)] px-6 py-3">
           {footer}
         </footer>
       )}

@@ -4,6 +4,8 @@ import "./globals.css";
 import { ControlSurface } from "@/components/ControlSurface";
 import { TransportNav } from "@/components/TransportNav";
 import { KeyboardNav } from "@/components/KeyboardNav";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -25,31 +27,34 @@ function Header() {
     <div className="flex items-center justify-between">
       {/* Logo / Brand */}
       <div className="flex items-center gap-3">
-        <span className="text-[var(--te-orange)] text-lg font-mono font-bold tracking-tight">
+        <span className="text-[var(--accent)] text-lg font-mono font-bold tracking-tight">
           SAM ZOLOTH
         </span>
-        <span className="text-[var(--te-mid-gray)] text-xs font-mono">
+        <span className="text-[var(--muted)] text-xs font-mono">
           PRODUCT MANAGER
         </span>
       </div>
 
-      {/* Navigation */}
-      <TransportNav />
+      {/* Navigation + Theme Switcher */}
+      <div className="flex items-center gap-4">
+        <TransportNav />
+        <ThemeSwitcher />
+      </div>
     </div>
   );
 }
 
 function Footer() {
   return (
-    <div className="flex items-center justify-between text-xs font-mono text-[var(--te-light-gray)]">
+    <div className="flex items-center justify-between text-xs font-mono text-[var(--muted)]">
       <span>2024 — Built with TE Design System</span>
       <div className="flex items-center gap-4">
-        <span className="opacity-50">Use arrow keys to navigate</span>
+        <span className="opacity-50">Press T to change theme</span>
         <a
           href="https://linkedin.com/in/samzoloth"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-[var(--te-orange)] transition-colors"
+          className="hover:text-[var(--accent)] transition-colors"
         >
           LinkedIn
         </a>
@@ -57,7 +62,7 @@ function Footer() {
           href="https://github.com/szoloth"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-[var(--te-orange)] transition-colors"
+          className="hover:text-[var(--accent)] transition-colors"
         >
           GitHub
         </a>
@@ -72,12 +77,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistMono.variable} antialiased`}>
-        <KeyboardNav />
-        <ControlSurface header={<Header />} footer={<Footer />}>
-          {children}
-        </ControlSurface>
+        <ThemeProvider>
+          <KeyboardNav />
+          <ControlSurface header={<Header />} footer={<Footer />}>
+            {children}
+          </ControlSurface>
+        </ThemeProvider>
       </body>
     </html>
   );
