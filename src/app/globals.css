@@ -1,26 +1,86 @@
 @import "tailwindcss";
+@import "../styles/te-tokens.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* TE-inspired dark theme (always dark) */
+  --background: var(--te-black);
+  --foreground: var(--te-white);
+  --accent: var(--te-orange);
+  --accent-secondary: var(--te-blue);
+  --muted: var(--te-mid-gray);
+  --panel: var(--te-bg-panel);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-muted: var(--muted);
+  --color-panel: var(--panel);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-mono), monospace;
+  min-height: 100vh;
+}
+
+/* TE-style selection */
+::selection {
+  background: var(--te-orange);
+  color: var(--te-black);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--te-bg-panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--te-mid-gray);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--te-orange);
+}
+
+/* Button reset with TE style */
+button {
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid var(--te-orange);
+  outline-offset: 2px;
+}
+
+/* Utility for TE panel styling */
+.te-panel {
+  background: var(--te-bg-panel);
+  border: 1px solid var(--te-mid-gray);
+}
+
+/* LED glow effect */
+.led-glow {
+  filter: drop-shadow(0 0 4px var(--te-orange));
 }

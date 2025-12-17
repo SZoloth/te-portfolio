@@ -1,0 +1,23 @@
+import type { SVGProps } from "react";
+interface IconProps extends SVGProps<SVGSVGElement> {
+  size?: number | string;
+  color?: string;
+}
+export const SvgGrid = ({
+  size = 24,
+  color = "currentColor",
+  ...props
+}: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1em"
+    height="1em"
+    role="img"
+    {...props}
+  >
+    <path
+      fill="currentColor"
+      d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"
+    />
+  </svg>
+);

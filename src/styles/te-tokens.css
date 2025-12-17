@@ -1,0 +1,44 @@
+/**
+ * Teenage Engineering Design Tokens
+ * Color palette extracted from TE product interfaces
+ */
+
+:root {
+  /* Primary Accent Colors */
+  --te-orange: #FF6B00;
+  --te-blue: #00A3FF;
+  --te-red: #FF3B30;
+
+  /* Secondary Accent Colors */
+  --te-yellow: #FFD60A;
+  --te-green: #30D158;
+  --te-pink: #FF2D92;
+  --te-cyan: #00D4FF;
+
+  /* Neutral Colors */
+  --te-white: #FFFFFF;
+  --te-black: #000000;
+  --te-dark-gray: #1A1A1A;
+  --te-mid-gray: #3A3A3A;
+  --te-light-gray: #808080;
+
+  /* LED Display Colors (Seven-Segment) */
+  --te-led-orange: #FF6B00;
+  --te-led-off: #2A2A2A;
+  --te-led-glow: rgba(255, 107, 0, 0.3);
+
+  /* Background Colors */
+  --te-bg-primary: #000000;
+  --te-bg-panel: #1A1A1A;
+  --te-bg-button: #2A2A2A;
+  --te-bg-button-active: #3A3A3A;
+}
+
+/* Utility Classes */
+.te-orange { color: var(--te-orange); }
+.te-blue { color: var(--te-blue); }
+.te-red { color: var(--te-red); }
+.te-white { color: var(--te-white); }
+
+.te-bg-dark { background-color: var(--te-bg-primary); }
+.te-bg-panel { background-color: var(--te-bg-panel); }
