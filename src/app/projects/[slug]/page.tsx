@@ -98,16 +98,22 @@ export default async function CaseStudyPage({ params }: Props) {
         </section>
       )}
 
-      {/* Role & Details */}
+      {/* Role & Client */}
       <section className="mb-12">
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-2">
+              Client
+            </h3>
+            <p className="text-white font-mono">{project.client}</p>
+          </div>
           <div>
             <h3 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-2">
               Role
             </h3>
             <p className="text-white font-mono">{project.role}</p>
           </div>
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h3 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-2">
               Tags
             </h3>
@@ -125,15 +131,35 @@ export default async function CaseStudyPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Content Placeholder */}
-      <section className="mb-12 te-panel p-8">
-        <p className="text-[var(--te-light-gray)] font-mono text-center">
-          Detailed case study content coming soon.
-          <br />
-          <span className="text-xs opacity-60">
-            This will include problem statement, approach, process, and outcomes.
-          </span>
-        </p>
+      {/* Challenge */}
+      <section className="mb-12">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-4">
+          Challenge
+        </h2>
+        <div className="te-panel p-6">
+          <p className="text-[var(--te-light-gray)] font-mono leading-relaxed">
+            {project.challenge}
+          </p>
+        </div>
+      </section>
+
+      {/* Approach */}
+      <section className="mb-12">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-4">
+          Approach
+        </h2>
+        <div className="space-y-3">
+          {project.approach.map((step, index) => (
+            <div key={index} className="flex gap-4 te-panel p-4">
+              <span className="text-[var(--te-orange)] font-mono text-sm shrink-0">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <p className="text-[var(--te-light-gray)] font-mono text-sm leading-relaxed">
+                {step}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Navigation */}

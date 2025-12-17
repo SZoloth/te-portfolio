@@ -3,39 +3,45 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About | Sam Zoloth',
-  description: 'Product Manager specifications and background.',
+  description: 'Product Strategist specifications and background.',
 };
 
 // Specs data - styled like TE product specifications
 const SPECS = {
   model: 'SAM ZOLOTH',
-  version: '2024.12',
-  type: 'Product Manager',
-  location: 'Arizona, USA',
+  version: '2025.01',
+  type: 'Product Strategist',
+  location: 'Denver, CO',
   experience: {
-    years: 12,
-    products: 11,
-    shipped: 8,
+    years: 9,
+    projects: 13,
+    shipped: 11,
   },
   domains: [
     'Enterprise SaaS',
-    'AI/ML Products',
+    'Logistics & 3PL',
+    'Healthcare',
+    'EdTech',
+    'Entertainment',
     'Consumer Apps',
-    'Developer Tools',
-    'FinTech',
-    'Media & Entertainment',
   ],
   skills: {
-    strategy: ['Product Strategy', 'Market Analysis', 'Pricing', 'Go-to-Market'],
-    discovery: ['User Research', 'JTBD Framework', 'Opportunity Mapping', 'Prototyping'],
-    execution: ['Agile/Scrum', 'Roadmapping', 'Stakeholder Management', 'Data Analysis'],
-    technical: ['SQL', 'Python', 'TypeScript', 'Swift', 'Figma'],
+    strategy: ['Product Strategy', 'Market Analysis', 'ROI Modeling', 'Go-to-Market'],
+    discovery: ['User Research', 'JTBD Framework', 'Continuous Discovery', 'Service Design'],
+    execution: ['Stakeholder Alignment', 'Roadmapping', 'Cross-Functional Leadership', 'Metrics Design'],
+    methods: ['AI-Assisted Research', 'Experimentation', 'Behavioral Segmentation', 'Executive Storytelling'],
   },
-  education: [
-    { degree: 'MBA', institution: 'Arizona State University', year: '2018' },
-    { degree: 'BS Computer Science', institution: 'University of Colorado', year: '2012' },
+  career: [
+    { role: 'Senior Product Manager', company: 'Stellar Elements', period: '2022-Present' },
+    { role: 'Growth Product Manager', company: 'ADK Group', period: '2017-2021' },
+    { role: 'Product Manager', company: 'Wellist', period: '2014-2017' },
   ],
-  certifications: ['AWS Cloud Practitioner', 'Pragmatic Marketing Certified'],
+  highlights: [
+    '100x organic traffic growth at Wasabi',
+    '$4.29M projected value for Comcast',
+    '65% CES improvement for Steamship Authority',
+    'VP-level executive alignment at DreamWorks',
+  ],
 };
 
 export default function AboutPage() {
@@ -66,6 +72,16 @@ export default function AboutPage() {
         </div>
       </header>
 
+      {/* Bio Statement */}
+      <section className="mb-12 te-panel p-6">
+        <p className="text-[var(--te-light-gray)] font-mono leading-relaxed">
+          Product leader who turns ambiguity into clear strategy and ships measurable outcomes.
+          Deep expertise in user research, systematic experimentation, and pragmatic AI that
+          compresses weeks to days. Aligns executives and teams around shared metrics for
+          consistent, material impact across industries.
+        </p>
+      </section>
+
       {/* Experience Meters */}
       <section className="mb-12">
         <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-6">
@@ -79,7 +95,7 @@ export default function AboutPage() {
             </span>
           </div>
           <div className="flex flex-col items-center">
-            <SevenSegment value={SPECS.experience.products} digits={2} color="blue" size="lg" />
+            <SevenSegment value={SPECS.experience.projects} digits={2} color="blue" size="lg" />
             <span className="text-xs font-mono text-[var(--te-light-gray)] mt-2 uppercase">
               Projects
             </span>
@@ -90,6 +106,32 @@ export default function AboutPage() {
               Shipped
             </span>
           </div>
+        </div>
+      </section>
+
+      {/* Career Timeline */}
+      <section className="mb-12">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-4">
+          Career
+        </h2>
+        <div className="space-y-4">
+          {SPECS.career.map((job, index) => (
+            <div key={job.company} className="flex justify-between items-baseline te-panel p-4">
+              <div>
+                <span className="text-[var(--te-orange)] font-mono mr-2">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="text-white font-mono">{job.role}</span>
+                <span className="text-[var(--te-mid-gray)] font-mono mx-2">@</span>
+                <span className="text-[var(--te-light-gray)] font-mono text-sm">
+                  {job.company}
+                </span>
+              </div>
+              <span className="text-xs font-mono text-[var(--te-mid-gray)]">
+                {job.period}
+              </span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -139,42 +181,19 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Education */}
+      {/* Key Highlights */}
       <section className="mb-12">
         <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-4">
-          Education
+          Highlights
         </h2>
-        <div className="space-y-4">
-          {SPECS.education.map((edu) => (
-            <div key={edu.degree} className="flex justify-between items-baseline">
-              <div>
-                <span className="text-white font-mono">{edu.degree}</span>
-                <span className="text-[var(--te-light-gray)] font-mono mx-2">—</span>
-                <span className="text-[var(--te-light-gray)] font-mono text-sm">
-                  {edu.institution}
-                </span>
-              </div>
-              <span className="text-xs font-mono text-[var(--te-orange)]">
-                {edu.year}
+        <div className="space-y-2">
+          {SPECS.highlights.map((highlight, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <span className="text-[var(--te-orange)] font-mono text-xs">
+                {String(index + 1).padStart(2, '0')}
               </span>
+              <span className="text-white font-mono text-sm">{highlight}</span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Certifications */}
-      <section className="mb-12">
-        <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)] mb-4">
-          Certifications
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {SPECS.certifications.map((cert) => (
-            <span
-              key={cert}
-              className="px-3 py-1.5 text-xs font-mono bg-[var(--te-bg-panel)] border border-[var(--te-mid-gray)] text-white"
-            >
-              {cert}
-            </span>
           ))}
         </div>
       </section>
@@ -186,13 +205,13 @@ export default function AboutPage() {
         </p>
         <div className="flex justify-center gap-4">
           <a
-            href="mailto:sam@samzoloth.com"
+            href="mailto:smzoloth@gmail.com"
             className="px-6 py-2 text-sm font-mono bg-[var(--te-orange)] text-black hover:bg-[var(--te-yellow)] transition-colors"
           >
             Contact
           </a>
           <a
-            href="https://linkedin.com/in/samzoloth"
+            href="https://linkedin.com/in/samuelzoloth"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-2 text-sm font-mono border border-[var(--te-mid-gray)] text-white hover:border-[var(--te-orange)] transition-colors"
