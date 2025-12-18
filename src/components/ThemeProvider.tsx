@@ -16,15 +16,18 @@ const STORAGE_KEY = 'te-portfolio-theme';
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
-  const { colors } = theme;
+  const { colors, layout, typography, components } = theme;
 
-  // Apply CSS custom properties
+  // ═══════════════════════════════════════════════════════════════
+  // COLORS
+  // ═══════════════════════════════════════════════════════════════
   root.style.setProperty('--background', colors.background);
   root.style.setProperty('--foreground', colors.foreground);
   root.style.setProperty('--accent', colors.accent);
   root.style.setProperty('--accent-secondary', colors.accentSecondary);
   root.style.setProperty('--muted', colors.muted);
   root.style.setProperty('--panel', colors.panel);
+  root.style.setProperty('--border', colors.border);
 
   // LED colors for seven-segment displays
   root.style.setProperty('--te-led-orange', colors.ledOn);
@@ -40,12 +43,74 @@ function applyTheme(theme: Theme) {
   root.style.setProperty('--te-mid-gray', colors.muted);
   root.style.setProperty('--te-light-gray', colors.muted);
 
-  // Set color scheme for browser UI
-  const isLight = theme.id === 'te-field';
-  root.style.colorScheme = isLight ? 'light' : 'dark';
+  // ═══════════════════════════════════════════════════════════════
+  // LAYOUT
+  // ═══════════════════════════════════════════════════════════════
+  root.style.setProperty('--layout-max-width', layout.maxWidth);
+  root.style.setProperty('--layout-grid-columns', String(layout.gridColumns));
 
-  // Set data attribute for CSS targeting
+  // Spacing scale
+  const spacingScale = {
+    compact: { section: '2rem', element: '0.5rem', padding: '1rem' },
+    normal: { section: '4rem', element: '1rem', padding: '2rem' },
+    spacious: { section: '6rem', element: '1.5rem', padding: '3rem' },
+  };
+  const spacing = spacingScale[layout.spacing];
+  root.style.setProperty('--spacing-section', spacing.section);
+  root.style.setProperty('--spacing-element', spacing.element);
+  root.style.setProperty('--spacing-padding', spacing.padding);
+
+  // ═══════════════════════════════════════════════════════════════
+  // TYPOGRAPHY
+  // ═══════════════════════════════════════════════════════════════
+  root.style.setProperty('--font-heading', typography.headingFont);
+  root.style.setProperty('--font-body', typography.bodyFont);
+  root.style.setProperty('--font-heading-weight', typography.headingWeight);
+  root.style.setProperty('--font-body-weight', typography.bodyWeight);
+  root.style.setProperty('--text-transform-heading',
+    typography.headingCase === 'uppercase' ? 'uppercase' : 'none'
+  );
+
+  // Typography scale
+  const typeScale = {
+    compact: { h1: '2rem', h2: '1.25rem', h3: '1rem', body: '0.875rem' },
+    normal: { h1: '2.5rem', h2: '1.5rem', h3: '1.125rem', body: '1rem' },
+    large: { h1: '3.5rem', h2: '2rem', h3: '1.25rem', body: '1.125rem' },
+  };
+  const type = typeScale[typography.scale];
+  root.style.setProperty('--text-h1', type.h1);
+  root.style.setProperty('--text-h2', type.h2);
+  root.style.setProperty('--text-h3', type.h3);
+  root.style.setProperty('--text-body', type.body);
+
+  // ═══════════════════════════════════════════════════════════════
+  // COMPONENTS
+  // ═══════════════════════════════════════════════════════════════
+  root.style.setProperty('--border-radius', components.borderRadius);
+
+  // Transition speeds
+  const transitions = {
+    instant: '0ms',
+    fast: '150ms',
+    smooth: '300ms',
+  };
+  root.style.setProperty('--transition-speed', transitions[components.transitionSpeed]);
+
+  // ═══════════════════════════════════════════════════════════════
+  // DATA ATTRIBUTES (for CSS selectors)
+  // ═══════════════════════════════════════════════════════════════
   root.setAttribute('data-theme', theme.id);
+  root.setAttribute('data-layout', layout.style);
+  root.setAttribute('data-typography', typography.style);
+  root.setAttribute('data-card-style', components.cardStyle);
+  root.setAttribute('data-hover-effect', components.hoverEffect);
+  root.setAttribute('data-show-seven-segment', String(components.showSevenSegment));
+  root.setAttribute('data-header-style', layout.headerStyle);
+  root.setAttribute('data-footer-style', layout.footerStyle);
+
+  // Color scheme for browser UI
+  const isLight = ['te-field', 'editorial'].includes(theme.id);
+  root.style.colorScheme = isLight ? 'light' : 'dark';
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {

@@ -17,7 +17,8 @@ interface MetricsDisplayProps {
 }
 
 /**
- * MetricsDisplay - Animated seven-segment metrics panel
+ * MetricsDisplay - Animated metrics panel
+ * Supports both seven-segment (hardware themes) and simple number (editorial themes) display
  * Values count up from 0 on mount for visual effect
  */
 export const MetricsDisplay: React.FC<MetricsDisplayProps> = ({
@@ -60,8 +61,8 @@ export const MetricsDisplay: React.FC<MetricsDisplayProps> = ({
     <div className={`flex flex-wrap gap-8 ${className}`}>
       {metrics.map((metric, index) => (
         <div key={metric.label} className="flex flex-col items-center gap-2">
-          {/* Seven-segment value */}
-          <div className="flex items-baseline gap-1">
+          {/* Seven-segment value (hardware themes) */}
+          <div className="seven-segment-container flex items-baseline gap-1">
             <SevenSegment
               value={displayValues[index]}
               digits={String(metric.value).length}
@@ -69,14 +70,26 @@ export const MetricsDisplay: React.FC<MetricsDisplayProps> = ({
               size="lg"
             />
             {metric.suffix && (
-              <span className="text-[var(--te-orange)] text-sm font-mono ml-1">
+              <span className="text-[var(--accent)] text-sm ml-1">
+                {metric.suffix}
+              </span>
+            )}
+          </div>
+
+          {/* Simple number value (editorial themes) */}
+          <div className="metric-value-simple hidden">
+            <span className="text-4xl font-bold text-[var(--foreground)]">
+              {displayValues[index]}
+            </span>
+            {metric.suffix && (
+              <span className="text-[var(--accent)] text-lg ml-1">
                 {metric.suffix}
               </span>
             )}
           </div>
 
           {/* Label */}
-          <span className="text-[var(--te-light-gray)] text-xs font-mono uppercase tracking-wider">
+          <span className="text-[var(--muted)] text-xs uppercase tracking-wider">
             {metric.label}
           </span>
         </div>

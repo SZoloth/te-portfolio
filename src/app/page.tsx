@@ -18,10 +18,10 @@ export default function Home() {
     <div className="p-8 lg:p-12">
       {/* Hero Section */}
       <section className="mb-16">
-        <h1 className="text-4xl lg:text-5xl font-mono font-bold mb-4 text-white">
+        <h1 className="h1 mb-4">
           Product Builder
         </h1>
-        <p className="text-[var(--te-light-gray)] text-lg font-mono max-w-2xl leading-relaxed">
+        <p className="text-[var(--muted)] text-lg max-w-2xl leading-relaxed">
           I turn complex problems into simple, elegant products.
           Strategy meets execution meets craft.
         </p>
@@ -30,10 +30,10 @@ export default function Home() {
       {/* Metrics Display */}
       <section className="mb-16">
         <div className="flex items-center gap-4 mb-6">
-          <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)]">
+          <h2 className="h3 text-[var(--muted)]">
             Career Metrics
           </h2>
-          <div className="flex-1 h-px bg-[var(--te-mid-gray)]" />
+          <div className="flex-1 h-px bg-[var(--border)]" />
         </div>
         <MetricsDisplay metrics={METRICS} animateOnMount />
       </section>
@@ -42,28 +42,28 @@ export default function Home() {
       <section className="mb-16">
         <div className="flex items-center gap-4 mb-6">
           <RecordingIndicator label="CURRENTLY WORKING ON" />
-          <div className="flex-1 h-px bg-[var(--te-mid-gray)]" />
+          <div className="flex-1 h-px bg-[var(--border)]" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="project-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {activeProjects.map((project) => (
             <Link
               key={project.id}
               href={`/projects/${project.slug}`}
-              className="group te-panel p-4 hover:border-[var(--te-orange)] transition-colors"
+              className="project-card group te-panel p-4 transition-all"
             >
               <div className="flex items-start justify-between mb-2">
-                <span className={`text-xs font-mono px-2 py-0.5 bg-[var(--te-${project.color})] text-black`}>
+                <span className={`text-xs px-2 py-0.5 bg-[var(--accent)] text-[var(--background)]`}>
                   {project.domain}
                 </span>
-                <span className="text-xs font-mono text-[var(--te-light-gray)]">
+                <span className="text-xs text-[var(--muted)]">
                   {project.year}
                 </span>
               </div>
-              <h3 className="text-white font-mono font-medium mb-2 group-hover:text-[var(--te-orange)] transition-colors">
+              <h3 className="text-[var(--foreground)] font-medium mb-2 group-hover:text-[var(--accent)] transition-colors">
                 {project.title}
               </h3>
-              <p className="text-sm text-[var(--te-light-gray)] font-mono line-clamp-2">
+              <p className="text-sm text-[var(--muted)] line-clamp-2">
                 {project.summary}
               </p>
             </Link>
@@ -74,13 +74,13 @@ export default function Home() {
       {/* Quick Links to Projects */}
       <section>
         <div className="flex items-center gap-4 mb-6">
-          <h2 className="text-xs font-mono uppercase tracking-wider text-[var(--te-light-gray)]">
+          <h2 className="h3 text-[var(--muted)]">
             All Projects
           </h2>
-          <div className="flex-1 h-px bg-[var(--te-mid-gray)]" />
+          <div className="flex-1 h-px bg-[var(--border)]" />
           <Link
             href="/projects"
-            className="text-xs font-mono text-[var(--te-orange)] hover:underline"
+            className="text-xs text-[var(--accent)] hover:underline"
           >
             View Grid →
           </Link>
@@ -91,9 +91,9 @@ export default function Home() {
             <Link
               key={project.id}
               href={`/projects/${project.slug}`}
-              className="px-3 py-1.5 border border-[var(--te-mid-gray)] text-xs font-mono text-[var(--te-light-gray)] hover:border-[var(--te-orange)] hover:text-white transition-colors"
+              className="px-3 py-1.5 border border-[var(--border)] text-xs text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--foreground)] transition-colors"
             >
-              <span className="text-[var(--te-orange)] mr-1">{String(index + 1).padStart(2, '0')}</span>
+              <span className="text-[var(--accent)] mr-1">{String(index + 1).padStart(2, '0')}</span>
               {project.title}
             </Link>
           ))}

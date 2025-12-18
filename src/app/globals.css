@@ -2,13 +2,36 @@
 @import "../styles/te-tokens.css";
 
 :root {
-  /* TE-inspired dark theme (always dark) */
+  /* Default values (overridden by ThemeProvider) */
   --background: var(--te-black);
   --foreground: var(--te-white);
   --accent: var(--te-orange);
   --accent-secondary: var(--te-blue);
   --muted: var(--te-mid-gray);
   --panel: var(--te-bg-panel);
+  --border: var(--te-mid-gray);
+
+  /* Layout defaults */
+  --layout-max-width: 100%;
+  --layout-grid-columns: 3;
+  --spacing-section: 4rem;
+  --spacing-element: 1rem;
+  --spacing-padding: 2rem;
+
+  /* Typography defaults */
+  --font-heading: var(--font-geist-mono), monospace;
+  --font-body: var(--font-geist-mono), monospace;
+  --font-heading-weight: 700;
+  --font-body-weight: 400;
+  --text-transform-heading: none;
+  --text-h1: 2.5rem;
+  --text-h2: 1.5rem;
+  --text-h3: 1.125rem;
+  --text-body: 1rem;
+
+  /* Component defaults */
+  --border-radius: 0;
+  --transition-speed: 150ms;
 }
 
 @theme inline {
@@ -18,25 +41,31 @@
   --color-accent-secondary: var(--accent-secondary);
   --color-muted: var(--muted);
   --color-panel: var(--panel);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair);
 }
 
-html {
-  color-scheme: dark;
-}
+/* ═══════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════ */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-mono), monospace;
+  font-family: var(--font-body);
+  font-weight: var(--font-body-weight);
+  font-size: var(--text-body);
   min-height: 100vh;
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
 }
 
-/* TE-style selection */
+/* Selection */
 ::selection {
-  background: var(--te-orange);
-  color: var(--te-black);
+  background: var(--accent);
+  color: var(--background);
 }
 
 /* Scrollbar styling */
@@ -46,22 +75,22 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--te-bg-panel);
+  background: var(--panel);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--te-mid-gray);
-  border-radius: 0;
+  background: var(--muted);
+  border-radius: var(--border-radius);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--te-orange);
+  background: var(--accent);
 }
 
-/* Button reset with TE style */
+/* Button reset */
 button {
   cursor: pointer;
-  transition: all 0.1s ease;
+  transition: all var(--transition-speed) ease;
 }
 
 button:active {
@@ -70,17 +99,192 @@ button:active {
 
 /* Focus visible for accessibility */
 :focus-visible {
-  outline: 2px solid var(--te-orange);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* Utility for TE panel styling */
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════ */
+
+h1, .h1 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--text-h1);
+  text-transform: var(--text-transform-heading);
+  line-height: 1.1;
+}
+
+h2, .h2 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--text-h2);
+  text-transform: var(--text-transform-heading);
+  line-height: 1.2;
+}
+
+h3, .h3 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--text-h3);
+  text-transform: var(--text-transform-heading);
+  line-height: 1.3;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Panel/Card base */
 .te-panel {
-  background: var(--te-bg-panel);
-  border: 1px solid var(--te-mid-gray);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed) ease;
 }
 
 /* LED glow effect */
 .led-glow {
-  filter: drop-shadow(0 0 4px var(--te-orange));
+  filter: drop-shadow(0 0 4px var(--accent));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT-SPECIFIC STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Editorial layout overrides */
+[data-layout="editorial"] {
+  /* Center content with max-width */
+  & main {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-padding);
+    padding-right: var(--spacing-padding);
+  }
+
+  /* Single column project grid */
+  & .project-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-section);
+  }
+
+  /* Section spacing */
+  & section {
+    margin-bottom: var(--spacing-section);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CARD STYLE VARIANTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Minimal cards (editorial) - no background, just content */
+[data-card-style="minimal"] .te-panel,
+[data-card-style="minimal"] .project-card {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Bordered cards */
+[data-card-style="bordered"] .te-panel {
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+/* Elevated cards */
+[data-card-style="elevated"] .te-panel {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HOVER EFFECT VARIANTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Border hover (default hardware) */
+[data-hover-effect="border"] .project-card:hover,
+[data-hover-effect="border"] a.te-panel:hover {
+  border-color: var(--accent);
+}
+
+/* Underline hover (editorial) */
+[data-hover-effect="underline"] .project-card:hover h3,
+[data-hover-effect="underline"] a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Lift hover */
+[data-hover-effect="lift"] .project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Glow hover (neon/crt) */
+[data-hover-effect="glow"] .project-card:hover,
+[data-hover-effect="glow"] a:hover {
+  box-shadow: 0 0 20px var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER STYLE VARIANTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Minimal header (editorial) */
+[data-header-style="minimal"] header {
+  border-bottom: none !important;
+  padding-top: var(--spacing-padding);
+  padding-bottom: var(--spacing-element);
+}
+
+/* Minimal footer (editorial) */
+[data-footer-style="minimal"] footer {
+  border-top: none !important;
+  padding-top: var(--spacing-element);
+  padding-bottom: var(--spacing-padding);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SEVEN SEGMENT VISIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Hide seven-segment displays in editorial mode */
+[data-show-seven-segment="false"] .seven-segment-container {
+  display: none;
+}
+
+/* Show simple numbers instead */
+[data-show-seven-segment="false"] .metric-value-simple {
+  display: block;
+}
+
+[data-show-seven-segment="true"] .metric-value-simple {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RECORDING INDICATOR VISIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Hide recording indicator in editorial mode - replace with text */
+[data-layout="editorial"] .recording-indicator {
+  display: none;
+}
+
+/* Show a simple "Featured" label instead in editorial mode */
+[data-layout="editorial"] .recording-indicator + .flex-1 {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* For editorial, remove the divider lines between sections */
+[data-layout="editorial"] .flex-1.h-px {
+  display: none;
 }
