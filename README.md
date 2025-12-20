@@ -1,6 +1,6 @@
 # Sam Zoloth Portfolio
 
-A product manager portfolio built with Next.js 16, featuring a Teenage Engineering-inspired design system with two levels of customization: **CSS theme switching** (colors/tokens) and **experience switching** (entire UI implementations).
+A product manager portfolio built with Next.js 16, featuring a Teenage Engineering-inspired design system with a **unified theme system** that goes beyond colors to transform the entire visual paradigm.
 
 ## Design Philosophy
 
@@ -22,55 +22,41 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-## Two-Level Customization System
+## Theme System
 
-### Level 1: Theme Switcher (CSS Variables)
+The theme system goes beyond simple color switching - each theme represents a complete visual paradigm with its own layout, typography, and component behaviors.
 
-The **theme switcher** changes colors, fonts, and visual tokens while keeping the same layout and components. This is like changing the "paint" on existing UI.
+### What Themes Control
 
-**Goal**: Allow visitors to personalize the visual appearance (dark/light modes, accent colors, etc.) without changing the underlying structure.
+| Category | Options |
+|----------|---------|
+| **Colors** | Background, foreground, accent, muted, panel, border, LED colors |
+| **Layout** | Max width, spacing scale, grid columns, header/footer style |
+| **Typography** | Heading font, body font, weights, case, scale |
+| **Components** | Border radius, card style, hover effect, show seven-segment |
 
-```
-src/styles/themes/
-├── te-dark.css      # Default TE dark theme
-├── te-light.css     # Light variant
-├── midnight.css     # Deep blue variant
-└── forest.css       # Green accent variant
-```
+### Available Themes
 
-Themes use CSS custom properties:
-```css
-:root[data-theme="te-dark"] {
-  --te-orange: #ff6b00;
-  --te-blue: #00a3ff;
-  --te-green: #00ff87;
-  --te-red: #ff3366;
-  --te-bg: #1a1a1a;
-  --te-light-gray: #888;
-  --te-mid-gray: #444;
-}
-```
+| Theme | Style | Description |
+|-------|-------|-------------|
+| **Classic** | Hardware | PO-12 orange on black - the original |
+| **Modular** | Hardware | OP-1/TX-6 blue on dark gray |
+| **Field** | Hardware | OP-1 Field warm cream tones |
+| **CRT** | Hardware | Retro terminal amber phosphor glow |
+| **Neon** | Hardware | Synthwave pink/cyan night aesthetics |
+| **Editorial** | Editorial | Refined, spacious, serif headlines |
 
-The `ThemeContext` manages theme state with localStorage persistence.
-
-### Level 2: Experience Switcher (Component Swapping)
-
-The **experience switcher** goes beyond theming - it swaps entire UI implementations while keeping the same underlying content. Different layouts, components, and interaction patterns.
-
-**Goal**: Demonstrate versatility by showing the same portfolio content rendered through completely different design systems. Visitors can toggle between experiences like switching between "TE mode" and "minimal mode."
+### Hardware vs Editorial Paradigms
 
 ```
-Content Layer (shared)              Experience Layer (swappable)
-┌─────────────────────────┐        ┌────────────────────────────────┐
-│ lib/case-studies.ts     │───────▶│ experiences/te/                │
-│ lib/profile-data.ts     │        │   pages/HomePage.tsx           │
-│                         │        │   components/SequencerGrid.tsx │
-│ (data + types)          │        │   layout/ExperienceLayout.tsx  │
-└─────────────────────────┘        ├────────────────────────────────┤
-                                   │ experiences/minimal/ (future)  │
-                                   │   pages/HomePage.tsx           │
-                                   │   components/ProjectCard.tsx   │
-                                   └────────────────────────────────┘
+Hardware Theme (default)          Editorial Theme
+├── Full-width layout             ├── Centered, constrained width
+├── Monospace typography          ├── Serif headings, sans-serif body
+├── Seven-segment LED displays    ├── Clean number display
+├── Recording indicator visible   ├── Minimal chrome
+├── Panel cards with borders      ├── Bottom-border separators
+├── 3-column project grid         ├── Single column
+└── Border hover effects          └── Underline hover effects
 ```
 
 ## Project Structure
@@ -79,80 +65,72 @@ Content Layer (shared)              Experience Layer (swappable)
 src/
 ├── app/                          # Next.js App Router
 │   ├── layout.tsx                # Root layout with providers
+│   ├── globals.css               # Theme-aware CSS with data attributes
 │   ├── page.tsx                  # Home page
 │   ├── about/page.tsx
 │   ├── projects/page.tsx
 │   └── projects/[slug]/page.tsx
 │
-├── experiences/                  # Experience switching system
-│   ├── types.ts                  # Interface contracts
-│   ├── context.tsx               # ExperienceProvider + useExperience
-│   ├── registry.ts               # Experience loader
-│   └── te/                       # Teenage Engineering experience
-│       ├── index.ts
-│       ├── layout/
-│       ├── pages/
-│       └── components/
+├── components/
+│   ├── ThemeProvider.tsx         # Theme context + CSS variable application
+│   ├── ThemeSwitcher.tsx         # Dropdown UI for theme selection
+│   ├── ControlSurface.tsx        # Hardware panel layout wrapper
+│   ├── TransportNav.tsx          # Navigation styled as transport controls
+│   ├── MetricsDisplay.tsx        # Dual-mode: seven-segment or simple numbers
+│   ├── RecordingIndicator.tsx    # Pulsing "active" indicator
+│   ├── KeyboardNav.tsx           # Keyboard shortcuts handler
+│   └── te-design-system/         # TE component library
+│       ├── SevenSegment.tsx
+│       └── ...
 │
-├── contexts/
-│   └── ThemeContext.tsx          # CSS theme switching
+├── lib/
+│   ├── themes.ts                 # Theme definitions and types
+│   └── case-studies.ts           # Project/case study data
 │
-├── styles/
-│   └── themes/                   # CSS variable themes
-│
-├── components/                   # Shared/global components
-│   ├── ControlSurface.tsx
-│   ├── TransportNav.tsx
-│   ├── SequencerGrid.tsx
-│   ├── SevenSegment.tsx
-│   ├── MetricsDisplay.tsx
-│   ├── RecordingIndicator.tsx
-│   ├── KeyboardNav.tsx
-│   ├── ThemeSwitcher.tsx         # UI for CSS themes
-│   └── ExperienceSwitcher.tsx    # UI for experience switching
-│
-└── lib/                          # Shared content layer
-    ├── case-studies.ts           # Project/case study data
-    └── profile-data.ts           # About page profile data
+└── styles/
+    └── te-tokens.css             # Base TE design tokens
 ```
 
-## Key Differences: Theme vs Experience
+## How Theme Switching Works
 
-| Aspect | Theme Switcher | Experience Switcher |
-|--------|---------------|---------------------|
-| **What changes** | Colors, fonts, spacing tokens | Entire components, layouts, interactions |
-| **Implementation** | CSS variables swap | React component swap |
-| **Use case** | Dark/light mode, accent colors | Different design systems |
-| **Content** | Same markup, different styles | Same data, different markup |
-| **Complexity** | Low - just CSS | High - full component sets |
+1. **Theme definitions** in `src/lib/themes.ts` contain all configuration
+2. **ThemeProvider** applies CSS variables to `:root` on theme change
+3. **Data attributes** (`data-layout`, `data-card-style`, etc.) enable CSS selectors
+4. **CSS in globals.css** uses these attributes for paradigm-specific styles
+5. **localStorage** persists the selected theme
 
-## Adding a New Theme (CSS)
+```typescript
+// Theme structure (simplified)
+interface Theme {
+  id: ThemeId;
+  colors: ThemeColors;      // background, accent, muted, etc.
+  layout: ThemeLayout;      // maxWidth, spacing, gridColumns
+  typography: ThemeTypography;  // fonts, weights, scale
+  components: ThemeComponents;  // cardStyle, hoverEffect, etc.
+}
+```
 
-1. Create `src/styles/themes/{name}.css`
-2. Define all CSS custom properties
-3. Register in ThemeContext
+## Adding a New Theme
 
-## Adding a New Experience (Components)
-
-1. Create `src/experiences/{name}/` with same structure as `te/`
-2. Implement all page components satisfying type contracts
-3. Register in `src/experiences/registry.ts`
-4. ExperienceSwitcher UI auto-updates
+1. Add theme ID to `ThemeId` type in `src/lib/themes.ts`
+2. Define the full theme object with colors, layout, typography, components
+3. Add to the `themes` record
+4. ThemeSwitcher automatically includes it
 
 ## Features
 
-- **Keyboard Navigation**: `H` (home), `P` (projects), `A` (about), `1-9` (jump to project)
-- **CSS Theme Switching**: Multiple color themes via CSS variables
-- **Experience Switching**: Swap entire UI implementations
+- **Keyboard Navigation**: `H` (home), `P` (projects), `A` (about), `T` (cycle themes), `1-9` (projects)
+- **Theme Switching**: 6 visual paradigms from hardware to editorial
+- **Responsive Design**: Mobile-friendly across all themes
 - **Static Generation**: All pages statically generated at build time
-- **localStorage Persistence**: Theme and experience preferences saved
+- **localStorage Persistence**: Theme preference saved
 
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router, Turbopack)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 4 + CSS Variables
-- **Font**: Geist Mono
+- **Fonts**: Geist Mono, Geist Sans, Playfair Display
 
 ## Scripts
 
