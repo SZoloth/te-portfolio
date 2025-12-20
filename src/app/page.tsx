@@ -1,7 +1,7 @@
 'use client';
 
 import { LCDText } from "@/components/ko-ii/LCD";
-import { Icons } from "@/components/ko-ii/SegmentIcons";
+import { KoIcons } from "@/components/ko-ii/KoIcons";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -34,11 +34,12 @@ export default function Home() {
       <div className="flex flex-col gap-2 mt-4 relative">
         <motion.div 
           className="absolute -right-4 top-0 opacity-20 rotate-12"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.2 }}
-          transition={{ type: "spring", delay: 0.5 }}
+          initial={{ scale: 0, opacity: 0, rotate: -45 }}
+          animate={{ scale: 1, opacity: 0.15, rotate: 15 }}
+          transition={{ type: "spring", delay: 0.5, stiffness: 100 }}
         >
-           <Icons.Grid className="w-24 h-24" color="#FF5700" />
+           {/* Replaced Grid with Knob for more mechanical feel */}
+           <KoIcons.Knob size={120} color="#FF5700" />
         </motion.div>
         
         <motion.div variants={fadeInUp}>
@@ -60,7 +61,7 @@ export default function Home() {
              animate={{ scaleX: 1 }}
              transition={{ delay: 0.8, duration: 0.5 }}
            >
-              <Icons.Wave className="w-8 h-8 shrink-0 mt-1" color="#0091FF" />
+              <KoIcons.Wave className="w-8 h-8 shrink-0 mt-1" color="#0091FF" />
            </motion.div>
            <p className="font-mono text-sm text-[#bbb] leading-relaxed uppercase tracking-wide">
              <span className="text-[#FF6B00]">{`>>>`}</span> STRATEGY MEETS EXECUTION.

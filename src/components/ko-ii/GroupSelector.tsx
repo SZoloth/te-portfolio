@@ -4,12 +4,13 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { KoIcons } from './KoIcons';
 
 const GROUPS = [
-  { id: 'A', label: 'MAIN', path: '/', color: '#FF5700', shadow: 'rgba(255,87,0,0.6)' },
-  { id: 'B', label: 'WORK', path: '/projects', color: '#0091FF', shadow: 'rgba(0,145,255,0.6)' },
-  { id: 'C', label: 'INFO', path: '/about', color: '#00FF84', shadow: 'rgba(0,255,132,0.6)' },
-  { id: 'D', label: 'CHAT', path: 'mailto:smzoloth@gmail.com', color: '#FF003C', shadow: 'rgba(255,0,60,0.6)' },
+  { id: 'A', label: 'MAIN', path: '/', color: '#FF5700', shadow: 'rgba(255,87,0,0.6)', Icon: KoIcons.Fist },
+  { id: 'B', label: 'WORK', path: '/projects', color: '#0091FF', shadow: 'rgba(0,145,255,0.6)', Icon: KoIcons.Grid },
+  { id: 'C', label: 'INFO', path: '/about', color: '#00FF84', shadow: 'rgba(0,255,132,0.6)', Icon: KoIcons.Face },
+  { id: 'D', label: 'CHAT', path: 'mailto:smzoloth@gmail.com', color: '#FF003C', shadow: 'rgba(255,0,60,0.6)', Icon: KoIcons.Envelope }, // Using basic Mail icon here or Connector
 ];
 
 export const GroupSelector: React.FC = () => {
@@ -19,6 +20,7 @@ export const GroupSelector: React.FC = () => {
     <div className="flex flex-row md:flex-col gap-4 md:gap-3 justify-center md:justify-start">
       {GROUPS.map((group) => {
         const isActive = pathname === group.path;
+        const Icon = group.Icon;
         
         return (
           <Link 
@@ -50,7 +52,8 @@ export const GroupSelector: React.FC = () => {
                  // Subtle pulse when active
                  whileHover={isActive ? { scale: 1.05 } : { borderColor: '#333' }}
                >
-                 <span className="font-mono font-bold text-lg leading-none">{group.id}</span>
+                 {/* Replaced Text with Icon */}
+                 <Icon size={18} strokeWidth={2.5} />
                </motion.div>
             </motion.div>
 
