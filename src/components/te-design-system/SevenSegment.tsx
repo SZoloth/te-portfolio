@@ -121,7 +121,8 @@ export const SevenSegment: React.FC<SevenSegmentProps> = ({
   className = '',
 }) => {
   const activeColor = COLORS[color];
-  const offColor = `${activeColor}22`; // 13% opacity for "off" segments
+  // KO II style: Inactive segments are dark grey/black, not transparent colored
+  const offColor = '#222'; 
   const sizeConfig = SIZES[size];
 
   // Convert value to string and pad/trim to digit count

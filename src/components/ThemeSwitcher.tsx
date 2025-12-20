@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTheme } from './ThemeProvider';
 import { themes, themeIds, Theme } from '@/lib/themes';
+import { LCDText } from './te-design-system/LCD';
 
 interface ThemeSwatchProps {
   theme: Theme;
@@ -17,11 +18,11 @@ function ThemeSwatch({ theme, isActive, onClick }: ThemeSwatchProps) {
     <button
       onClick={onClick}
       className={`
-        group relative flex items-center gap-3 w-full p-3
+        group relative flex items-center gap-3 w-full p-2
         border transition-all duration-200
         ${isActive
-          ? 'border-[var(--accent)] bg-[var(--panel)]'
-          : 'border-[var(--muted)] hover:border-[var(--accent)] bg-transparent'
+          ? 'border-[#FF6B00] bg-[#111]'
+          : 'border-[#333] hover:border-[#555] bg-transparent'
         }
       `}
       aria-pressed={isActive}
@@ -31,7 +32,7 @@ function ThemeSwatch({ theme, isActive, onClick }: ThemeSwatchProps) {
         {[bg, accent, fg].map((color, i) => (
           <div
             key={i}
-            className="w-3 h-3 rounded-full border border-[var(--muted)]"
+            className="w-2 h-2 rounded-full"
             style={{ backgroundColor: color }}
           />
         ))}
@@ -39,17 +40,12 @@ function ThemeSwatch({ theme, isActive, onClick }: ThemeSwatchProps) {
 
       {/* Theme info */}
       <div className="flex-1 text-left">
-        <div className="text-sm font-mono font-medium text-[var(--foreground)]">
-          {theme.name}
-        </div>
-        <div className="text-xs font-mono text-[var(--muted)]">
-          {theme.inspiration}
-        </div>
+        <LCDText text={theme.name} size="xs" color={isActive ? 'orange' : 'white'} active={true} />
       </div>
 
       {/* Active indicator */}
       {isActive && (
-        <div className="w-2 h-2 bg-[var(--accent)]" />
+        <div className="w-1.5 h-1.5 bg-[#FF6B00] animate-pulse" />
       )}
     </button>
   );
@@ -90,49 +86,36 @@ export function ThemeSwitcher() {
   }, [cycleTheme]);
 
   return (
-    <div ref={containerRef} className="relative">
-      {/* Trigger button - shows current theme colors */}
+    <div ref={containerRef} className="relative z-50">
+      {/* Trigger button - Screen Mode Look */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`
-          flex items-center gap-2 px-3 py-2
-          border border-[var(--muted)]
-          hover:border-[var(--accent)]
-          transition-colors font-mono text-xs
-          ${isOpen ? 'border-[var(--accent)]' : ''}
-        `}
+        className="flex items-center gap-2 group outline-none"
         aria-label="Change theme"
         title="Press T to cycle themes"
       >
-        {/* Mini color preview */}
-        <div className="flex gap-0.5">
-          {theme.previewColors.map((color, i) => (
-            <div
-              key={i}
-              className="w-2 h-2"
-              style={{ backgroundColor: color }}
-            />
-          ))}
+        <div className={`px-2 py-1 border border-[#333] group-hover:border-[#555] transition-colors ${isOpen ? 'border-[#FF6B00]' : ''}`}>
+           <LCDText text="THEME" size="xs" color="white" className="opacity-60" />
         </div>
-        <span className="text-[var(--foreground)] uppercase tracking-wider">
-          {theme.name}
-        </span>
+        <div className={`px-2 py-1 border transition-colors ${isOpen ? 'border-[#FF6B00] bg-[#FF6B00] text-black' : 'border-[#FF6B00] text-[#FF6B00]'}`}>
+           <span className={`font-mono font-bold text-xs tracking-wider ${isOpen ? 'text-black' : ''}`}>
+             {theme.name.toUpperCase()}
+           </span>
+        </div>
       </button>
 
       {/* Dropdown panel */}
       {isOpen && (
         <div
           className="
-            absolute right-0 top-full mt-2 z-50
-            w-64 border border-[var(--muted)] bg-[var(--background)]
-            shadow-lg
+            absolute right-0 top-full mt-2
+            w-64 border-2 border-[#333] bg-black
+            shadow-[0_0_20px_rgba(0,0,0,0.8)]
           "
         >
           {/* Header */}
-          <div className="px-3 py-2 border-b border-[var(--muted)]">
-            <div className="text-xs font-mono uppercase tracking-wider text-[var(--muted)]">
-              Select Theme
-            </div>
+          <div className="px-3 py-2 border-b border-[#333]">
+            <LCDText text="SELECT MODE" size="xs" color="white" className="opacity-50" />
           </div>
 
           {/* Theme list */}
@@ -148,13 +131,6 @@ export function ThemeSwitcher() {
                 }}
               />
             ))}
-          </div>
-
-          {/* Footer hint */}
-          <div className="px-3 py-2 border-t border-[var(--muted)]">
-            <div className="text-[10px] font-mono text-[var(--muted)]">
-              Press <span className="text-[var(--accent)]">T</span> to cycle themes
-            </div>
           </div>
         </div>
       )}

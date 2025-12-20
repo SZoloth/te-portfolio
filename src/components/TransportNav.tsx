@@ -3,55 +3,33 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { LCDSegmentGroup } from './te-design-system/LCD';
 
-interface NavItem {
-  label: string;
-  href: string;
-  shortcut?: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: 'HOME', href: '/', shortcut: 'H' },
-  { label: 'PROJECTS', href: '/projects', shortcut: 'P' },
-  { label: 'ABOUT', href: '/about', shortcut: 'A' },
+const NAV_ITEMS = [
+  { label: 'A', desc: 'MAIN', href: '/' },
+  { label: 'B', desc: 'SOUND', href: '/projects' }, // "SOUND" is consistent with KO II "Sound" mode, mapped to Projects
+  { label: 'C', desc: 'TEMPO', href: '/about' },    // "TEMPO" mapped to About (Experience/Time)
+  { label: 'D', desc: 'SYSTEM', href: 'mailto:sam@example.com' }, // "SYSTEM" mapped to Contact
 ];
 
-/**
- * TransportNav - TE-style transport control navigation
- * Mimics the button/indicator aesthetic of TE hardware
- */
 export const TransportNav: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-center gap-1">
+    <nav className="flex flex-col gap-4">
       {NAV_ITEMS.map((item) => {
         const isActive = pathname === item.href;
-
+        
+        // For external links (mailto), we might not want to highlight as active page
+        // unless we want to hack it. For now, D is just a link.
+        
         return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`
-              relative px-4 py-2 text-xs font-mono uppercase tracking-wider
-              border border-[var(--te-mid-gray)]
-              transition-all duration-100
-              ${isActive
-                ? 'bg-[var(--te-orange)] text-black border-[var(--te-orange)]'
-                : 'bg-[var(--te-bg-panel)] text-[var(--te-light-gray)] hover:border-[var(--te-orange)] hover:text-white'
-              }
-            `}
-          >
-            {/* Active indicator dot */}
-            {isActive && (
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--te-orange)] rounded-full led-glow" />
-            )}
-            {item.label}
-            {item.shortcut && (
-              <span className="ml-2 text-[10px] opacity-50">
-                [{item.shortcut}]
-              </span>
-            )}
+          <Link key={item.label} href={item.href}>
+            <LCDSegmentGroup 
+              label={item.label}
+              description={item.desc}
+              active={isActive}
+            />
           </Link>
         );
       })}

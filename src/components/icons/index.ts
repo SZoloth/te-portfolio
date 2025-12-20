@@ -48,3 +48,4 @@ export { SvgTrackOne as TrackOneIcon } from './TrackOne';
 export { SvgTrackThree as TrackThreeIcon } from './TrackThree';
 export { SvgTrackTwo as TrackTwoIcon } from './TrackTwo';
 export { SvgTwo as TwoIcon } from './Two';
+export { Screw as ScrewIcon } from './Screw';
